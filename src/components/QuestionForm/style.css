@@ -1,0 +1,19 @@
+.initial {
+	@apply flex flex-col justify-between h-[241px];
+}
+
+.initial-instructions {
+	@apply flex flex-col gap-1;
+}
+
+.initial-title {
+	@apply font-semibold;
+}
+
+.initial-start {
+	@apply font-semibold text-xl;
+}
+
+.initial-rules {
+	@apply font-semibold text-sm mb-5;
+}

@@ -1,35 +1,112 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Box, SxProps, Typography } from "@mui/material"
+import { grey, orange } from "@mui/material/colors"
+import { useEffect } from "react"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
+import "./App.css"
+import QuestionForm from "./components/QuestionForm/QuestionForm"
+import { StorageKeys } from "./enums/StorageKeys"
+import { TypeOfButtons } from "./enums/TypeOfButtons"
+import useCountDownTimer from "./hooks/useCountDownTimer"
+import useTaskStore from "./store/store"
+
+const isActiveStyle = (currId: number, testId: number, isStart: boolean) => {
+	const style: SxProps = {
+		width: "80px",
+		height: "12px",
+		backgroundColor: grey[300],
+		transition: "all 0.3s ease",
+	}
+
+	if (testId === currId && isStart) {
+		style.backgroundColor = orange[900]
+	}
+
+	if (testId > currId) {
+		style.backgroundColor = grey[900]
+	}
+
+	return style
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+	const { testId = 1 } = useParams()
+	const testsData = useTaskStore(state => state.testData.tests)
+	const title = useTaskStore(state => state.testData.title)
+	const answers = useTaskStore(state => state.answers)
+	const setInitialState = useTaskStore(state => state.setInitialState)
+	const navigate = useNavigate()
+	const { pathname } = useLocation()
+	const {
+		hours,
+		minutes,
+		seconds,
+		isStart,
+		idFromStorage,
+		answerValuesFromStorage,
+	} = useCountDownTimer()
+	const currentTypeTask = testsData[+testId - 1].type
+	const answerFromStorage = answers.slice(-1)[0]
+	const remainTime = sessionStorage.getItem(StorageKeys.remainTime)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	useEffect(() => {
+		const answersInStorage = sessionStorage.getItem(StorageKeys.results)
+		const lastAnswerId =
+			answersInStorage && JSON.parse(answersInStorage).slice(-1)[0].id
+
+		if (
+			(answersInStorage && lastAnswerId === testsData.length) ||
+			pathname === "/" ||
+			pathname === "/test" ||
+			pathname === "/test/1" ||
+			pathname === "/test/"
+		) {
+			navigate(`/test`, { replace: true })
+			setInitialState()
+			return
+		}
+	}, [])
+
+	useEffect(() => {
+		const timeToSet = hours
+			? `${hours}:${minutes}:${seconds}`
+			: `${minutes}:${seconds}`
+		sessionStorage.setItem(StorageKeys.remainTime, timeToSet)
+	}, [isStart, hours, minutes, seconds])
+
+	return (
+		<main>
+			<div className="task-title">
+				<Typography variant="h4">
+					Тестирование на тему: <strong>{title}</strong>
+				</Typography>
+
+				{isStart && currentTypeTask !== TypeOfButtons.fullAnswer && (
+					<div className="task-time">
+						{answerValuesFromStorage && answerFromStorage.time}
+
+						{idFromStorage === +testId &&
+							!answerValuesFromStorage &&
+							remainTime}
+
+						{idFromStorage !== +testId &&
+							!answerValuesFromStorage &&
+							`${!!hours ? `${hours}:` : ""}${minutes}:${seconds}`}
+					</div>
+				)}
+			</div>
+
+			<div className="task-cells">
+				{testsData.map(task => (
+					<Box
+						key={task.id}
+						sx={() => isActiveStyle(task.id, +testId, isStart)}
+					></Box>
+				))}
+			</div>
+
+			<QuestionForm />
+		</main>
+	)
 }
 
 export default App

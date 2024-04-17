@@ -1,5 +1,5 @@
-import { TypeOfButtons } from "../enums/TypeOfButtons"
-import { TestData } from "../types/TestData"
+import { TypeOfButtons } from "../src/enums/TypeOfButtons"
+import { TestData } from "../src/types/TestData"
 
 export const testData: TestData = {
 	title: "React",

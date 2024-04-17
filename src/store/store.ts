@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { testData } from "../data/data"
+import { testData } from "../../data/data"
 import { StorageKeys } from "../enums/StorageKeys"
 import { StoreType } from "./StoreType"
 

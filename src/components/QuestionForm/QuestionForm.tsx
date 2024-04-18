@@ -70,7 +70,7 @@ export const QuestionForm = () => {
 
 		setStoreAnswer({ ...answer, time: resolvedTime })
 		setAnswer(null)
-		navigate(`/testApp/test/${+testId + 1}`, { replace: true })
+		navigate(`/testApp/test/${+testId + 1}`)
 	}
 
 	useEffect(() => {

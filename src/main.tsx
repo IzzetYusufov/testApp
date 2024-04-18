@@ -90,7 +90,7 @@ export const theme = createTheme({
 export const router = createBrowserRouter(
 	createRoutesFromElements(
 		<>
-			<Route path="/testApp" element={<App />} errorElement={<ErrorPage />}>
+			<Route path="/testApp/" element={<App />} errorElement={<ErrorPage />}>
 				<Route path="test" element={<App />}>
 					<Route
 						path=":testId"
@@ -98,8 +98,8 @@ export const router = createBrowserRouter(
 						errorElement={<ErrorPage />}
 					/>
 				</Route>
-				<Route path="result" element={<TestResult />} />
 			</Route>
+			<Route path="/testApp/result" element={<TestResult />} />
 		</>
 	)
 )

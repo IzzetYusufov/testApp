@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material"
 import { green, grey } from "@mui/material/colors"
 import ReactDOM from "react-dom/client"
 import {
-	createBrowserRouter,
+	createHashRouter,
 	createRoutesFromElements,
 	Route,
 	RouterProvider,
@@ -87,10 +87,10 @@ export const theme = createTheme({
 	},
 })
 
-export const router = createBrowserRouter(
+export const router = createHashRouter(
 	createRoutesFromElements(
 		<>
-			<Route path="/testApp/" element={<App />} errorElement={<ErrorPage />}>
+			<Route path="/" element={<App />} errorElement={<ErrorPage />}>
 				<Route path="test" element={<App />}>
 					<Route
 						path=":testId"
@@ -99,7 +99,7 @@ export const router = createBrowserRouter(
 					/>
 				</Route>
 			</Route>
-			<Route path="/testApp/result" element={<TestResult />} />
+			<Route path="/result" element={<TestResult />} />
 		</>
 	)
 )

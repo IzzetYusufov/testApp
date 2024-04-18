@@ -53,15 +53,13 @@ function App() {
 		const lastAnswerId =
 			answersInStorage && JSON.parse(answersInStorage).slice(-1)[0].id
 
-		console.log("pathname APP Component", pathname)
-
 		if (
 			(answersInStorage && lastAnswerId === testsData.length) ||
-			pathname === "/testApp/" ||
-			pathname === "/testApp/test" ||
-			pathname === "/testApp/test/"
+			pathname === "/" ||
+			pathname === "/test" ||
+			pathname === "/test/"
 		) {
-			navigate(`/testApp/test`, { replace: true })
+			navigate(`/test`, { replace: true })
 			setInitialState()
 			return
 		}

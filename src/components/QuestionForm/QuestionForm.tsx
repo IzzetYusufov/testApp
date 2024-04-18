@@ -29,12 +29,12 @@ export const QuestionForm = () => {
 				time: taskTime.toFixed(2),
 			})
 			if (+testId === tests.length) {
-				navigate(`/testApp/result`)
+				navigate(`/result`)
 				setAnswer(null)
 				return
 			} else {
 				setAnswer(null)
-				navigate(`/testApp/test/${+testId + 1}`)
+				navigate(`/test/${+testId + 1}`)
 				return
 			}
 		}
@@ -55,14 +55,14 @@ export const QuestionForm = () => {
 
 		if (+testId === tests.length) {
 			setStoreAnswer({ ...answer, time: resolvedTime })
-			navigate(`/testApp/result`)
+			navigate(`/result`)
 			setAnswer(null)
 			return
 		}
 
 		setStoreAnswer({ ...answer, time: resolvedTime })
 		setAnswer(null)
-		navigate(`/testApp/test/${+testId + 1}`)
+		navigate(`/test/${+testId + 1}`)
 	}
 
 	useEffect(() => {

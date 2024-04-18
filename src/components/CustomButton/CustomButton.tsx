@@ -54,7 +54,7 @@ const CustomButton: FC<Props> = ({ handleNextTask, isDisabled, title }) => {
 			color="secondary"
 			sx={typeOfButton().style}
 			onClick={() => typeOfButton().func()}
-			disabled={isDisabled && pathname !== "testApp/test"}
+			disabled={isDisabled && pathname !== "/testApp/test"}
 		>
 			{typeOfButton().title}
 		</Button>

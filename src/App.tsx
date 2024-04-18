@@ -57,7 +57,6 @@ function App() {
 			(answersInStorage && lastAnswerId === testsData.length) ||
 			pathname === "/" ||
 			pathname === "/test" ||
-			pathname === "/testApp" ||
 			pathname === "/test/1" ||
 			pathname === "/test/"
 		) {

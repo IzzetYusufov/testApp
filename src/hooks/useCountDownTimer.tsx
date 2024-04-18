@@ -27,7 +27,6 @@ function useCountDownTimer(m?: number, s?: number) {
 		if (idFromStorage === +testId) {
 			return
 		}
-
 		setTime({
 			h: new Date(0, 0, 0, 0, taskTime).getHours(),
 			m: new Date(0, 0, 0, 0, taskTime).getMinutes(),

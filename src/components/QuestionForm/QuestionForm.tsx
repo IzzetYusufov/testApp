@@ -63,14 +63,14 @@ export const QuestionForm = () => {
 
 		if (+testId === tests.length) {
 			setStoreAnswer({ ...answer, time: resolvedTime })
-			navigate(`/result`)
+			navigate(`/testApp/result`)
 			setAnswer(null)
 			return
 		}
 
 		setStoreAnswer({ ...answer, time: resolvedTime })
 		setAnswer(null)
-		navigate(`/test/${+testId + 1}`, { replace: true })
+		navigate(`/testApp/test/${+testId + 1}`, { replace: true })
 	}
 
 	useEffect(() => {

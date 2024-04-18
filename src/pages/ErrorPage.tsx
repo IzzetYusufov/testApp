@@ -9,7 +9,8 @@ const ErrorPage = () => {
 			<h1>Не верный путь, данной страницы не существует</h1>
 
 			<CustomButton
-				handleNextTask={() => () => navigate("/test", { replace: true })}
+				handleNextTask={() => () =>
+					navigate("/testApp/test", { replace: true })}
 				isDisabled={false}
 				title="На главную"
 			/>

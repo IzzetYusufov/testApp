@@ -20,7 +20,7 @@ const CustomButton: FC<Props> = ({ handleNextTask, isDisabled, title }) => {
 
 	const handleStart = () => {
 		setInitialState()
-		navigate("test/1", { replace: true })
+		navigate("/testApp/test/1", { replace: true })
 		setIsStart(true)
 	}
 
@@ -54,7 +54,7 @@ const CustomButton: FC<Props> = ({ handleNextTask, isDisabled, title }) => {
 			color="secondary"
 			sx={typeOfButton().style}
 			onClick={() => typeOfButton().func()}
-			disabled={isDisabled && pathname !== "/test"}
+			disabled={isDisabled && pathname !== "testApp/test"}
 		>
 			{typeOfButton().title}
 		</Button>

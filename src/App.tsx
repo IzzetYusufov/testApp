@@ -55,12 +55,12 @@ function App() {
 
 		if (
 			(answersInStorage && lastAnswerId === testsData.length) ||
-			pathname === "/" ||
-			pathname === "/test" ||
-			pathname === "/test/1" ||
-			pathname === "/test/"
+			pathname === "/testApp" ||
+			pathname === "/testApp/test" ||
+			pathname === "/testApp/test/1" ||
+			pathname === "/testApp/test/"
 		) {
-			navigate(`/test`, { replace: true })
+			navigate(`/testApp/test`, { replace: true })
 			setInitialState()
 			return
 		}

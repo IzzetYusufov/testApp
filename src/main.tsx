@@ -90,7 +90,7 @@ export const theme = createTheme({
 export const router = createBrowserRouter(
 	createRoutesFromElements(
 		<>
-			<Route path="/" element={<App />} errorElement={<ErrorPage />}>
+			<Route path="/testApp/" element={<App />} errorElement={<ErrorPage />}>
 				<Route path="test" element={<App />}>
 					<Route
 						path=":testId"

@@ -7,11 +7,11 @@ main {
 }
 
 .task-title {
-	@apply flex flex-col gap-4 mb-3 justify-between md:flex-row md:items-end;
+	@apply flex flex-col flex-wrap gap-4 mb-3 justify-between md:flex-row md:items-end;
 }
 
 .task-time {
-	@apply flex self-end justify-center items-center w-28 h-10 border border-stone-950 rounded-md;
+	@apply flex self-start justify-center items-center w-28 h-10 border border-stone-950 rounded-md;
 }
 
 .task-cells {

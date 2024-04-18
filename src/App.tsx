@@ -56,8 +56,8 @@ function App() {
 		if (
 			(answersInStorage && lastAnswerId === testsData.length) ||
 			pathname === "/testApp/" ||
+			pathname === "/" ||
 			pathname === "/testApp/test" ||
-			pathname === "/testApp/test/1" ||
 			pathname === "/testApp/test/"
 		) {
 			navigate(`/testApp/test`, { replace: true })

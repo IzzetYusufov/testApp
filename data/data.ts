@@ -13,7 +13,7 @@ export const testData: TestData = {
 				"Способ создания анимаций в React",
 			],
 			type: TypeOfButtons.oneAnswer,
-			time: 2,
+			time: 1,
 			answer: [],
 		},
 		{
@@ -26,7 +26,7 @@ export const testData: TestData = {
 				"shouldComponentUpdate()",
 			],
 			type: TypeOfButtons.severalAnswer,
-			time: 2,
+			time: 1,
 			answer: [],
 		},
 		{

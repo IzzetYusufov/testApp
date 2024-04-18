@@ -1,21 +1,13 @@
-import {
-	Checkbox,
-	FormControl,
-	FormControlLabel,
-	FormGroup,
-	FormLabel,
-	Radio,
-	RadioGroup,
-	TextareaAutosize,
-	Typography,
-} from "@mui/material"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { TypeOfButtons } from "../../enums/TypeOfButtons"
 import useCountDownTimer from "../../hooks/useCountDownTimer"
+import StartPage from "../../pages/StartPage"
 import useTaskStore from "../../store/store"
 import { TestResults } from "../../types/TestResults"
-import CustomButton from "../CustomButton/CustomButton"
+import CheckBoxButtons from "../CheckBoxButtons/CheckBoxButtons"
+import RadioButtons from "../RadioButtons/RadioButtons"
+import TextArea from "../TextArea/TextArea"
 import "./style.css"
 
 export const QuestionForm = () => {
@@ -24,27 +16,27 @@ export const QuestionForm = () => {
 	const [answer, setAnswer] = useState<Omit<TestResults, "time"> | null>(null)
 	const setStoreAnswer = useTaskStore(state => state.setAnswer)
 	const navigate = useNavigate()
-	const {
-		hours,
-		minutes,
-		seconds,
-		taskTime,
-		isStart,
-		answerValuesFromStorage,
-		idFromStorage,
-	} = useCountDownTimer()
-	const {
-		question,
-		type,
-		options = [],
-	} = useTaskStore(state => state.testData.tests[+testId - 1])
-	const isDisabledBtn =
-		(answer?.answer ? !!!Object.values(answer.answer).length : true) ||
-		idFromStorage === +testId
+
+	const { hours, minutes, seconds, taskTime, isStart } = useCountDownTimer()
+
+	const { type } = useTaskStore(state => state.testData.tests[+testId - 1])
 
 	const handleNextTask = () => {
 		if (!answer) {
-			return
+			setStoreAnswer({
+				id: +testId,
+				answer: { 1: "Время вышло, ответ не выбран" },
+				time: taskTime.toFixed(2),
+			})
+			if (+testId === tests.length) {
+				navigate(`/testApp/result`)
+				setAnswer(null)
+				return
+			} else {
+				setAnswer(null)
+				navigate(`/testApp/test/${+testId + 1}`)
+				return
+			}
 		}
 
 		const calcTime = taskTime * 60 - (hours * 120 + minutes * 60 + +seconds)
@@ -77,7 +69,7 @@ export const QuestionForm = () => {
 		if (hours === 0 && minutes === 0 && +seconds === 0) {
 			handleNextTask()
 		}
-	}, [hours, minutes, +seconds, answer])
+	}, [hours, minutes, +seconds])
 
 	const handleSetAnswer = (
 		data: string,
@@ -106,118 +98,38 @@ export const QuestionForm = () => {
 	switch (true) {
 		case TypeOfButtons.oneAnswer === type && isStart:
 			return (
-				<>
-					<FormControl>
-						<FormLabel component="legend">{question}</FormLabel>
-						<RadioGroup
-							aria-labelledby={question}
-							name="controlled-radio-buttons-group"
-							aria-disabled={idFromStorage === +testId}
-							onChange={e => handleSetAnswer(e.currentTarget.value, 1)}
-							value={
-								answerValuesFromStorage
-									? answerValuesFromStorage[0]
-									: answer?.answer[1] || ""
-							}
-						>
-							{options?.map(opt => (
-								<FormControlLabel
-									control={<Radio />}
-									label={opt}
-									value={opt}
-									key={opt}
-									disabled={idFromStorage === +testId}
-								/>
-							))}
-						</RadioGroup>
-					</FormControl>
-
-					<CustomButton
-						handleNextTask={() => handleNextTask()}
-						isDisabled={isDisabledBtn}
-					/>
-				</>
+				<RadioButtons
+					answer={answer}
+					setAnswer={handleSetAnswer}
+					nextTask={handleNextTask}
+				/>
 			)
 		case TypeOfButtons.severalAnswer === type && isStart:
 			return (
-				<>
-					<FormGroup>
-						<FormLabel component="legend">{question}</FormLabel>
-
-						{options?.map((opt, i) => (
-							<FormControlLabel
-								control={
-									<Checkbox
-										checked={
-											answerValuesFromStorage
-												? answerValuesFromStorage.includes(opt)
-												: !!answer?.answer[i + 1]
-										}
-										disabled={idFromStorage === +testId}
-									/>
-								}
-								label={opt}
-								key={opt}
-								onChange={() => handleSetAnswer(opt, i + 1, true)}
-							/>
-						))}
-						<CustomButton
-							handleNextTask={() => handleNextTask()}
-							isDisabled={isDisabledBtn}
-						/>
-					</FormGroup>
-				</>
+				<CheckBoxButtons
+					answer={answer}
+					setAnswer={handleSetAnswer}
+					nextTask={handleNextTask}
+				/>
 			)
 		case TypeOfButtons.shortAnswer === type && isStart:
 		case TypeOfButtons.fullAnswer === type && isStart:
 			return (
-				<>
-					<FormLabel component="legend">{question}</FormLabel>
-
-					<TextareaAutosize
-						maxRows={10}
-						minRows={10}
-						style={{ outline: "none" }}
-						value={
-							answerValuesFromStorage
-								? answerValuesFromStorage[0]
-								: answer?.answer[1] || ""
-						}
-						placeholder={
-							TypeOfButtons.fullAnswer === type
-								? "Напишите развернутый ответ, максимум 20 строк"
-								: "Напишите короткий ответ, максимум 10 строк"
-						}
-						onChange={e => handleSetAnswer(e.currentTarget.value, 1)}
-					/>
-					<CustomButton
-						handleNextTask={() => handleNextTask()}
-						isDisabled={isDisabledBtn}
-					/>
-				</>
+				<TextArea
+					answer={answer}
+					setAnswer={handleSetAnswer}
+					maxRowsHeight={10}
+					minRowsHeight={10}
+					nextTask={handleNextTask}
+					placeHolder={
+						TypeOfButtons.fullAnswer === type
+							? "Напишите развернутый ответ, максимум 20 строк"
+							: "Напишите короткий ответ, максимум 10 строк"
+					}
+				/>
 			)
 		default:
-			return (
-				<div className="initial">
-					<div className="initial-instructions">
-						<Typography variant="h5" className="initial-title">
-							Добро пожаловать!
-						</Typography>
-						<Typography className="initial-start">
-							Что бы начать прохождение теста нажмите на кнопку "Начать тест"
-						</Typography>
-						<Typography className="initial-rules">
-							На выполнение некоторых тестовых заданий будет отведено
-							ограниченное количество времени
-						</Typography>
-					</div>
-
-					<CustomButton
-						handleNextTask={() => handleNextTask()}
-						isDisabled={!isStart}
-					/>
-				</div>
-			)
+			return <StartPage nextTask={handleNextTask} />
 	}
 }
 

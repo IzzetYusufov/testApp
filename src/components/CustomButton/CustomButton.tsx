@@ -29,7 +29,7 @@ const CustomButton: FC<Props> = ({ handleNextTask, isDisabled, title }) => {
 			return {
 				title: title ? title : "Начать тест",
 				func: () => handleStart(),
-				style: {},
+				style: { marginTop: "40px" },
 			}
 		}
 
@@ -37,14 +37,14 @@ const CustomButton: FC<Props> = ({ handleNextTask, isDisabled, title }) => {
 			return {
 				title: "Завершить тест",
 				func: handleNextTask,
-				style: { width: "200px", alignSelf: "flex-end" },
+				style: { width: "200px", alignSelf: "flex-end", marginTop: "40px" },
 			}
 		}
 
 		return {
 			title: "Следующий тест",
 			func: handleNextTask,
-			style: { width: "200px", alignSelf: "flex-end" },
+			style: { width: "200px", alignSelf: "flex-end", marginTop: "40px" },
 		}
 	}
 

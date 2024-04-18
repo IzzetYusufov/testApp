@@ -66,9 +66,9 @@ export const theme = createTheme({
 			styleOverrides: {
 				root: {
 					display: "flex",
-					alignItems: "flex-start",
 					margin: 0,
 					marginBottom: "10px",
+					alignItems: "center",
 				},
 			},
 		},
